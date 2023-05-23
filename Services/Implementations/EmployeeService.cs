@@ -9,29 +9,16 @@ namespace EmployeeManagement.Services.Implementations
     {
         private readonly DataContext _context;
 
-        public EmployeeService(DataContext context)
-        {
-            _context = context;
-        }
-
-        public Task<Employee> DismissEmployee(string registerNumber)
+        public Task<JobTitle> GetJobTitle(string registerNumber)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Employee> GetEmployee(string registerNumber)
+        public Task<Employee> UpdateEmployee(string registerNumber)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Employee> RegisterEmployee(EmployeeDTO employeeDTO)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task<Employee> UpdateEmployee(EmployeeDTO employeeDTO)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
