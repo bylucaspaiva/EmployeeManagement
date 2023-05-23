@@ -12,12 +12,7 @@ namespace EmployeeManagement.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
+        public IActionResult RegisterEmployee()
         {
             return View();
         }
