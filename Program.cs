@@ -1,7 +1,13 @@
+using EmployeeManagement.Extensions;
+using EmployeeManagement.Persistence;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddApplicationServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -24,4 +30,17 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+
+try
+{
+    var context = services.GetRequiredService<DataContext>();
+    context.Database.Migrate();
+}
+catch (Exception ex)
+{
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "An error ocurred during migration");
+}
 app.Run();
