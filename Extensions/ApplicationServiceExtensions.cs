@@ -1,4 +1,5 @@
 ﻿using EmployeeManagement.Persistence;
+using EmployeeManagement.Profiles;
 using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeManagement.Extensions
@@ -11,6 +12,9 @@ namespace EmployeeManagement.Extensions
             {
                 opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
             });
+
+            services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+
             return services;
         }
     }

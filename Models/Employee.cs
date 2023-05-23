@@ -15,16 +15,15 @@ namespace EmployeeManagement.Models
         [Required]
         [DataType(DataType.Date)]
         public DateTime StartDate { get; set; } = DateTime.UtcNow;
+        [DataType(DataType.Date)]
         public DateTime? TerminationDate { get; set; }
         public string? CompanyCNPJ { get; set; }
         public Company? Company { get; set; }
-        public ICollection<JobHistory> JobHistory { get; set; } = new List<JobHistory>();
+        public ICollection<JobHistory> JobHistory { get; set; }
 
-        public Employee(string registerNumber, string name, string cPF)
+        public Employee()
         {
-            RegisterNumber = registerNumber;
-            Name = name;
-            CPF = cPF;
+            JobHistory = new List<JobHistory>();
         }
 
         public bool IsValid()
