@@ -7,7 +7,6 @@ namespace EmployeeManagement.Services.Interfaces
     {
         Task<Employee> UpdateEmployee(string registerNumber);
         Task<JobTitle> GetJobTitle(string registerNumber);
-
         Task<JobHistory> GetJobHistory(string registerNumber);
     }
 }
