@@ -1,0 +1,48 @@
+﻿@using EmployeeManagement.Models;
+@model IEnumerable<EmployeeManagement.Models.Company>
+
+@{
+    ViewData["Title"] = "Empresas Registradas";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>CNPJ</th>
+            <th>Razão Social</th>
+            <th>Nome Fantasia</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var company in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => company.CNPJ)</td>
+                <td>@Html.DisplayFor(modelItem => company.CompanyName)</td>
+                <td>@Html.DisplayFor(modelItem => company.TradeName)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@company.CNPJ">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@company.CNPJ">Detalhes</a> |
+                    <a asp-action="Delete" asp-route-id="@company.CNPJ">Deletar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            <ul>
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            </ul>
+        </div>
+    }
+}

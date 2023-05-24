@@ -13,12 +13,5 @@ namespace EmployeeManagement.Models
         public string CompanyName { get; set; }
         public string TradeName { get; set; }
         public ICollection<Employee> Employees { get; set; } = new List<Employee>();
-
-        public Company(string cNPJ, string companyName, string tradeName)
-        {
-            CNPJ = cNPJ;
-            CompanyName = companyName;
-            TradeName = tradeName;
-        }
     }
 }

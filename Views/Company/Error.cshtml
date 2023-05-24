@@ -1,0 +1,15 @@
+﻿@model EmployeeManagement.Models.CompanyErrorView
+
+@{
+    ViewData["Title"] = "Error";
+}
+
+<h1>Error</h1>
+
+<p>Ocorreu um erro durante o processamento da solicitação:</p>
+
+<div>
+    <strong>Mensagem:</strong>
+    <p>@Model.ErrorMessage</p>
+</div>
+

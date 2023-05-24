@@ -1,5 +1,7 @@
 ﻿using EmployeeManagement.Persistence;
 using EmployeeManagement.Profiles;
+using EmployeeManagement.Services.Implementations;
+using EmployeeManagement.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeManagement.Extensions
@@ -14,6 +16,9 @@ namespace EmployeeManagement.Extensions
             });
 
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+            services.AddScoped<ICompanyService, CompanyService>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddHttpClient();
 
             return services;
         }
