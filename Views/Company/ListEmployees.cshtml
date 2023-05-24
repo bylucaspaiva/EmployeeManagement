@@ -1,0 +1,42 @@
+﻿@using EmployeeManagement.Models;
+@model List<EmployeeManagement.Models.Employee>
+
+<h1>Lista de Funcionários</h1>
+
+@if (Model != null && Model.Count > 0)
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Matricula</th>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Data de início</th>
+                <th>Data de término</th>
+                <th>Ações</th>
+                <!-- Adicione mais colunas conforme necessário -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var employee in Model)
+            {
+                <tr>
+                    <td>@employee.RegisterNumber</td>
+                    <td>@employee.Name</td>
+                    <td>@employee.CPF</td>
+                    <td>@employee.StartDate</td>
+                    <td>@employee.TerminationDate</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@employee.RegisterNumber">Editar</a> |
+                        <a asp-action="Details" asp-route-id="@employee.RegisterNumber">Detalhes</a> |
+                        <a asp-action="Delete" asp-route-id="@employee.RegisterNumber">Deletar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Nenhum funcionário encontrado.</p>
+}

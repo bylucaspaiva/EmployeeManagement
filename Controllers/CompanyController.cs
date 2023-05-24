@@ -1,4 +1,6 @@
-﻿using EmployeeManagement.Models;
+﻿using EmployeeManagement.DTOs;
+using EmployeeManagement.Models;
+using EmployeeManagement.Persistence;
 using EmployeeManagement.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -8,29 +10,46 @@ namespace EmployeeManagement.Controllers
     public class CompanyController : Controller
     {
         private readonly ICompanyService _companyService;
-
-        public CompanyController(ICompanyService companyService)
+        private CompanyContext _companyContext;
+        public CompanyController(ICompanyService companyService, CompanyContext companyContext)
         {
             _companyService = companyService;
+            _companyContext = companyContext;
         }
 
         public IActionResult Create()
         {
             return View();
         }
+
+        [HttpGet]
+        public async Task<ActionResult> ListEmployees(string id)
+        {
+            var result = await _companyService.GetEmployees(id);
+            if (result.IsSuccess)
+            {
+                var employees = result.Value;
+                return View(employees);
+            }
+            else
+            {
+                _companyContext.ErrorMessage = result.Error ?? "Erro ao listar empregados";
+                return RedirectToAction("Error");
+            }
+        }
+
         public IActionResult Error()
         {
-            var errorMessage = TempData["ErrorMessage"] as string;
+            var errorMessage = _companyContext.ErrorMessage;
 
-            var companyErrorView = new CompanyErrorView
+            if (string.IsNullOrEmpty(errorMessage))
             {
-                ErrorMessage = errorMessage
-            };
+                errorMessage = "Erro ao cadastrar empresa";
+            }
 
-            if(!string.IsNullOrEmpty(companyErrorView.ErrorMessage))
-                return View(companyErrorView);
-            companyErrorView.ErrorMessage = "Erro ao cadastrar empresa";
-            return View(companyErrorView);
+            _companyContext.ErrorMessage = errorMessage;
+
+            return View(_companyContext);
 
         }
 
@@ -47,12 +66,34 @@ namespace EmployeeManagement.Controllers
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = newCompany.Error;
+                    _companyContext.ErrorMessage = newCompany.Error;
 
                     return RedirectToAction("Error");
                 }
             }
             return BadRequest();
+        }
+
+        public IActionResult RegisterEmployee(string id)
+        {
+            _companyContext.CNPJ = id;
+            return View();
+        }
+
+        public async Task<IActionResult> AddEmployee(EmployeeDTO employeeDTO)
+        {
+            var cnpj = _companyContext.CNPJ;
+            var result = await _companyService.RegisterEmployee(employeeDTO, cnpj);
+
+            if (result.IsSuccess)
+            {
+                return RedirectToAction("ListEmployees");
+            }
+            else
+            {
+                _companyContext.ErrorMessage = result.Error ?? "Erro ao cadastrar empregado";
+                return RedirectToAction("Error");
+            }
         }
 
         [HttpGet]
@@ -61,5 +102,7 @@ namespace EmployeeManagement.Controllers
             var companies = await _companyService.GetCompanies();
             return View(companies);
         }
+
+
     }
 }

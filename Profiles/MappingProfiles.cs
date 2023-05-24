@@ -9,6 +9,8 @@ namespace EmployeeManagement.Profiles
         public MappingProfiles()
         {
             CreateMap<EmployeeDTO, Employee>();
+            CreateMap<Employee, EmployeeDTO>();
+
         }
     }
 }

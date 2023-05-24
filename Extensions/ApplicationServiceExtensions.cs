@@ -18,6 +18,7 @@ namespace EmployeeManagement.Extensions
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
             services.AddScoped<ICompanyService, CompanyService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddSingleton<CompanyContext>();
             services.AddHttpClient();
 
             return services;

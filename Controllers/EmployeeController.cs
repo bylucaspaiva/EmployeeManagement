@@ -16,11 +16,5 @@ namespace EmployeeManagement.Controllers
             _logger = logger;
             _mapper = mapper;
         }
-
-        public IActionResult RegisterEmployee(EmployeeDTO employeeDTO )
-        {
-            var employee = _mapper.Map<EmployeeDTO>( employeeDTO );
-            return View();
-        }
     }
 }

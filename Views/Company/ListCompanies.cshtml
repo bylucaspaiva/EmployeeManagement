@@ -24,8 +24,8 @@
                 <td>@Html.DisplayFor(modelItem => company.CompanyName)</td>
                 <td>@Html.DisplayFor(modelItem => company.TradeName)</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@company.CNPJ">Editar</a> |
-                    <a asp-action="Details" asp-route-id="@company.CNPJ">Detalhes</a> |
+                    <a asp-action="RegisterEmployee" asp-route-id="@company.CNPJ">Adicionar Empregado</a> |
+                    <a asp-action="ListEmployees" asp-route-id="@company.CNPJ">Listar Empregados</a> |
                     <a asp-action="Delete" asp-route-id="@company.CNPJ">Deletar</a>
                 </td>
             </tr>

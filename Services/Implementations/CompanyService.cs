@@ -40,9 +40,14 @@ namespace EmployeeManagement.Services.Implementations
             throw new NotImplementedException();
         }
 
-        public Task<List<Employee>> GetEmployees(string companyCNPJ)
+        public async Task<Result<List<Employee>>> GetEmployees(string companyCNPJ)
         {
-            throw new NotImplementedException();
+            var employees = await _context.Companies
+            .Where(c => c.CNPJ == companyCNPJ)
+            .SelectMany(c => c.Employees)
+            .ToListAsync();
+
+            return Result<List<Employee>>.Success(employees);
         }
 
         public async Task<Result<Company>> RegisterCompany(Company company)
@@ -79,9 +84,23 @@ namespace EmployeeManagement.Services.Implementations
             return companyData.Status == "OK" ? Result<bool>.Success(true) : Result<bool>.Failure("false");
         }
 
-        public Task<Employee> RegisterEmployee(EmployeeDTO employeeDTO)
+        public async Task<Result<Employee>> RegisterEmployee(EmployeeDTO employeeDTO, string CNPJ)
         {
-            throw new NotImplementedException();
+            var company = await _context.Companies.FirstOrDefaultAsync(c => c.CNPJ == CNPJ);
+
+            if (company == null) return Result<Employee>.Failure("Empresa não cadastrada");
+
+            var employee = _mapper.Map<Employee>(employeeDTO);
+
+            employee.Company = company;
+            employee.CompanyCNPJ = CNPJ;
+            company.Employees.Add(employee);
+
+            var result = await _context.SaveChangesAsync() > 0;
+
+            if(result) return Result<Employee>.Success(employee);
+
+            return Result<Employee>.Failure("Erro ao salvar empregado!");
         }
 
         public Task<Employee> UpdateEmployee(EmployeeDTO employeeDTO)
