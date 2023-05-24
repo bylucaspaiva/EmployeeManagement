@@ -11,10 +11,12 @@ namespace EmployeeManagement.Controllers
     {
         private readonly ICompanyService _companyService;
         private CompanyContext _companyContext;
-        public CompanyController(ICompanyService companyService, CompanyContext companyContext)
+        private EmployeeContext _employeeContext;
+        public CompanyController(ICompanyService companyService, CompanyContext companyContext, EmployeeContext employeeContext)
         {
             _companyService = companyService;
             _companyContext = companyContext;
+            _employeeContext = employeeContext;
         }
 
         public IActionResult Create()
@@ -25,7 +27,8 @@ namespace EmployeeManagement.Controllers
         [HttpGet]
         public async Task<ActionResult> ListEmployees(string id)
         {
-            var result = await _companyService.GetEmployees(id);
+            var cnpj = _companyContext.CNPJ;
+            var result = await _companyService.GetEmployees(id != null ? id : cnpj);
             if (result.IsSuccess)
             {
                 var employees = result.Value;

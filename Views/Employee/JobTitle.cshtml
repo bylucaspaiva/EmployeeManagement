@@ -1,5 +1,20 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model EmployeeManagement.Models.JobTitle
+
+<form asp-method="JobTitle" method="post">
+    <div class="form-group">
+        <label asp-for="Name" class="control-label">Nome:</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CBO" class="control-label">CBO:</label>
+        <input asp-for="CBO" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ActivityDescription" class="control-label">ActivityDescription</label>
+        <input asp-for="ActivityDescription" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</form>

@@ -19,6 +19,7 @@ namespace EmployeeManagement.Extensions
             services.AddScoped<ICompanyService, CompanyService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddSingleton<CompanyContext>();
+            services.AddSingleton<EmployeeContext>();
             services.AddHttpClient();
 
             return services;

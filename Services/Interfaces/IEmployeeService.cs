@@ -1,4 +1,5 @@
-﻿using EmployeeManagement.DTOs;
+﻿using EmployeeManagement.Core;
+using EmployeeManagement.DTOs;
 using EmployeeManagement.Models;
 
 namespace EmployeeManagement.Services.Interfaces
@@ -7,6 +8,9 @@ namespace EmployeeManagement.Services.Interfaces
     {
         Task<Employee> UpdateEmployee(string registerNumber);
         Task<JobTitle> GetJobTitle(string registerNumber);
-        Task<JobHistory> GetJobHistory(string registerNumber);
+        Task<Result<List<JobTitle>>> GetJobHistory(int id);
+        Task<Result<JobTitle>> RegisterJob(int id, JobTitle model);
+
+        //Task<Result<int>> GetIdBy
     }
 }

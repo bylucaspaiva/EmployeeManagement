@@ -3,6 +3,7 @@ using System;
 using EmployeeManagement.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmployeeManagement.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230524201554_updateModels")]
+    partial class updateModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
@@ -37,8 +40,7 @@ namespace EmployeeManagement.Migrations
 
             modelBuilder.Entity("EmployeeManagement.Models.Employee", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("RegisterNumber")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CPF")
@@ -52,11 +54,7 @@ namespace EmployeeManagement.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("RegisterNumber")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
+                    b.HasKey("RegisterNumber");
 
                     b.HasIndex("CompanyCNPJ");
 
@@ -77,7 +75,7 @@ namespace EmployeeManagement.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("EmployeeGuid")
+                    b.Property<string>("EmployeeRegisterNumber")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -92,7 +90,7 @@ namespace EmployeeManagement.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeGuid");
+                    b.HasIndex("EmployeeRegisterNumber");
 
                     b.ToTable("JobTitles");
                 });
@@ -110,7 +108,7 @@ namespace EmployeeManagement.Migrations
                 {
                     b.HasOne("EmployeeManagement.Models.Employee", "Employee")
                         .WithMany("JobHistory")
-                        .HasForeignKey("EmployeeGuid");
+                        .HasForeignKey("EmployeeRegisterNumber");
 
                     b.Navigation("Employee");
                 });

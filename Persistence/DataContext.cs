@@ -11,7 +11,6 @@ public class DataContext : DbContext
     public DbSet<Company> Companies { get; set; }
     public DbSet<Employee> Employees { get; set; }
     public DbSet<JobTitle> JobTitles { get; set; }
-    public DbSet<JobHistory> JobHistory { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -20,10 +19,10 @@ public class DataContext : DbContext
             .WithMany(c => c.Employees)
             .HasForeignKey(e => e.CompanyCNPJ);
 
-        modelBuilder.Entity<JobHistory>()
-            .HasOne(jh => jh.Employee)
-            .WithMany(e => e.JobHistory)
-            .HasForeignKey(jh => jh.EmployeeRegisterNumber);
-    }
+        modelBuilder.Entity<JobTitle>()
+            .HasOne(j => j.Employee)
+            .WithMany(j => j.JobHistory)
+            .HasForeignKey(j => j.EmployeeId);
 
+    }
 }

@@ -9,7 +9,5 @@ namespace EmployeeManagement.DTOs
         public string Name { get; set; }
         [Required]
         public string CPF { get; set; }
-        [Required]
-        public DateTime StartDate { get; set; } = DateTime.UtcNow;
     }
 }

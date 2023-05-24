@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using EmployeeManagement.DTOs;
 using EmployeeManagement.Models;
+using EmployeeManagement.Persistence;
+using EmployeeManagement.Services.Implementations;
+using EmployeeManagement.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -10,11 +13,60 @@ namespace EmployeeManagement.Controllers
     {
         private readonly ILogger<EmployeeController> _logger;
         private readonly IMapper _mapper;
+        private readonly DataContext _context;
+        private readonly EmployeeContext _employeeContext;
+        private readonly IEmployeeService _employeeService;
 
-        public EmployeeController(ILogger<EmployeeController> logger, IMapper mapper)
+        public EmployeeController(
+            IMapper mapper, 
+            DataContext context, 
+            EmployeeContext employeeContext,
+            IEmployeeService employeeService
+            
+            )
         {
-            _logger = logger;
             _mapper = mapper;
+            _context = context;
+            _employeeContext = employeeContext;
+            _employeeService = employeeService;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> JobTitle(JobTitle model)
+        {
+            var registerNumber = _employeeContext.Id;
+            var result = await _employeeService.RegisterJob(registerNumber, model);
+
+            if (result.IsSuccess)
+            {
+                return RedirectToAction("JobHistory");
+            }
+            else
+            {
+                _employeeContext.ErrorMessage = result.Error ?? "Erro ao cadastrar empregado";
+                return RedirectToAction("Error");
+            }
+        }
+
+        public IActionResult JobTitle(int id) 
+        {
+            _employeeContext.Id = id;
+            return View();
+        }
+
+        public async Task<IActionResult> JobHistory(string id)
+        {
+            var result = await _employeeService.GetJobHistory(id);
+            if (result.IsSuccess)
+            {
+                var jobTitles = result.Value;
+                return View(jobTitles);
+            }
+            else
+            {
+                _employeeContext.ErrorMessage = result.Error ?? "erro ao listar cargos";
+                return RedirectToAction("Error");
+            }
         }
     }
 }
