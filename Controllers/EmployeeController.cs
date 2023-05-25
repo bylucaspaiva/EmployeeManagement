@@ -39,7 +39,6 @@ namespace EmployeeManagement.Controllers
 
             if (result.IsSuccess)
             {
-                _employeeContext.Id = result.Value.Id;
                 return RedirectToAction("JobHistory");
             }
             else
@@ -55,10 +54,11 @@ namespace EmployeeManagement.Controllers
             return View();
         }
 
+        
         public async Task<IActionResult> JobHistory(int id)
         {
             var empId = _employeeContext.Id;
-            var result = await _employeeService.GetJobHistory(id != null ? id : empId);
+            var result = await _employeeService.GetJobHistory(id != 0 ? id : empId);
             if (result.IsSuccess)
             {
                 var jobTitles = result.Value;
