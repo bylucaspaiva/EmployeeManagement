@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmployeeManagement.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230524223523_updateEmployeeModel2")]
-    partial class updateEmployeeModel2
+    [Migration("20230525001020_InitialMigrate")]
+    partial class InitialMigrate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,9 +40,9 @@ namespace EmployeeManagement.Migrations
 
             modelBuilder.Entity("EmployeeManagement.Models.Employee", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("CPF")
                         .IsRequired()
@@ -80,8 +80,8 @@ namespace EmployeeManagement.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("EmployeeGuid")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -95,7 +95,7 @@ namespace EmployeeManagement.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeGuid");
+                    b.HasIndex("EmployeeId");
 
                     b.ToTable("JobTitles");
                 });
@@ -113,7 +113,9 @@ namespace EmployeeManagement.Migrations
                 {
                     b.HasOne("EmployeeManagement.Models.Employee", "Employee")
                         .WithMany("JobHistory")
-                        .HasForeignKey("EmployeeGuid");
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Employee");
                 });

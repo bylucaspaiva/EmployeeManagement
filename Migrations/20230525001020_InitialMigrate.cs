@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EmployeeManagement.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialMigrate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -25,34 +25,19 @@ namespace EmployeeManagement.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "JobTitles",
+                name: "Employees",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    CBO = table.Column<string>(type: "TEXT", nullable: false),
-                    ActivityDescription = table.Column<string>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_JobTitles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Employees",
-                columns: table => new
-                {
                     RegisterNumber = table.Column<string>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     CPF = table.Column<string>(type: "TEXT", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    TerminationDate = table.Column<DateTime>(type: "TEXT", nullable: true),
                     CompanyCNPJ = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Employees", x => x.RegisterNumber);
+                    table.PrimaryKey("PK_Employees", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Employees_Companies_CompanyCNPJ",
                         column: x => x.CompanyCNPJ,
@@ -61,28 +46,25 @@ namespace EmployeeManagement.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "JobHistory",
+                name: "JobTitles",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    CBO = table.Column<string>(type: "TEXT", nullable: false),
+                    ActivityDescription = table.Column<string>(type: "TEXT", nullable: false),
                     StartDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    JobTitleId = table.Column<int>(type: "INTEGER", nullable: false),
-                    EmployeeRegisterNumber = table.Column<string>(type: "TEXT", nullable: false)
+                    TerminationDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    EmployeeId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JobHistory", x => x.Id);
+                    table.PrimaryKey("PK_JobTitles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_JobHistory_Employees_EmployeeRegisterNumber",
-                        column: x => x.EmployeeRegisterNumber,
+                        name: "FK_JobTitles_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
                         principalTable: "Employees",
-                        principalColumn: "RegisterNumber",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_JobHistory_JobTitles_JobTitleId",
-                        column: x => x.JobTitleId,
-                        principalTable: "JobTitles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -93,27 +75,19 @@ namespace EmployeeManagement.Migrations
                 column: "CompanyCNPJ");
 
             migrationBuilder.CreateIndex(
-                name: "IX_JobHistory_EmployeeRegisterNumber",
-                table: "JobHistory",
-                column: "EmployeeRegisterNumber");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_JobHistory_JobTitleId",
-                table: "JobHistory",
-                column: "JobTitleId");
+                name: "IX_JobTitles_EmployeeId",
+                table: "JobTitles",
+                column: "EmployeeId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "JobHistory");
+                name: "JobTitles");
 
             migrationBuilder.DropTable(
                 name: "Employees");
-
-            migrationBuilder.DropTable(
-                name: "JobTitles");
 
             migrationBuilder.DropTable(
                 name: "Companies");

@@ -23,9 +23,9 @@
                     <td>@employee.Name</td>
                     <td>@employee.CPF</td>
                     <td>
-                        <a asp-action="JobTitle" asp-route-id="@employee.RegisterNumber" asp-controller="Employee">Adicionar cargo</a> |
-                        <a asp-action="JobHistory" asp-route-id="@employee.RegisterNumber" asp-controller="Employee">Detalhes</a> |
-                        <a asp-action="Delete" asp-route-id="@employee.RegisterNumber">Deletar</a>
+                        <a asp-action="JobTitle" asp-route-id="@employee.Id" asp-controller="Employee">Adicionar cargo</a> |
+                        <a asp-action="JobHistory" asp-route-id="@employee.Id" asp-controller="Employee">Detalhes</a> |
+                        <a asp-action="Delete" asp-route-id="@employee.Id">Deletar</a>
                     </td>
                 </tr>
             }
