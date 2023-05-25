@@ -17,5 +17,6 @@ namespace EmployeeManagement.Models
         public string? CompanyCNPJ { get; set; }
         public Company? Company { get; set; }
         public ICollection<JobTitle> JobHistory { get; set; } = new List<JobTitle>();
+        public bool IsActive { get; set; }
     }
 }

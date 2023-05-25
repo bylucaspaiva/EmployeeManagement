@@ -17,7 +17,26 @@ namespace EmployeeManagement.Services.Implementations
             _context = context;
         }
 
-        public async Task<Result<JobTitle>> DismissEmployee(int id)
+        public async Task<Result<Employee>> DismissEmploye(int id)
+        {
+            var employee = await _context.Employees
+                .Where(e => e.Id == id)
+                .FirstOrDefaultAsync();
+
+            if (employee == null) return Result<Employee>.Failure("Colaborador não encontrado");
+
+            employee.IsActive = false;
+
+            _context.Employees.Update(employee);
+
+            var success = await _context.SaveChangesAsync() > 0;
+
+            if (success) return Result<Employee>.Success(employee);
+
+            return Result<Employee>.Failure("Falha ao demitir funcionário");
+        }
+
+        public async Task<Result<JobTitle>> DismissJob(int id)
         {
             var jobTitle = await _context.JobTitles
                 .Where(x => x.Id == id)
@@ -38,7 +57,7 @@ namespace EmployeeManagement.Services.Implementations
 
             if (success) return Result<JobTitle>.Success(jobTitle);
             
-            return Result<JobTitle>.Failure("Falha ao demitir funcionário");
+            return Result<JobTitle>.Failure("Falha ao terminar cargo");
         }
 
         public async Task<Result<List<JobTitle>>> GetJobHistory(int id)

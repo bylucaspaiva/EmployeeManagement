@@ -75,9 +75,9 @@ namespace EmployeeManagement.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> DismissEmployee(int id)
+        public async Task<IActionResult> DismissJob(int id)
         {
-            var result = await _employeeService.DismissEmployee(id);
+            var result = await _employeeService.DismissJob(id);
             var empId = _employeeContext.Id;
             if (result.IsSuccess)
             {
@@ -86,6 +86,12 @@ namespace EmployeeManagement.Controllers
                 return RedirectToAction("JobHistory", updatedEmployees);
             }
             return RedirectToAction("Error");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DismissEmployee(int id)
+        {
+
         }
     }
 }

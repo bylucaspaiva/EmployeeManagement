@@ -9,6 +9,8 @@ namespace EmployeeManagement.Services.Interfaces
         Task<JobTitle> GetJobTitle(string registerNumber);
         Task<Result<List<JobTitle>>> GetJobHistory(int id);
         Task<Result<JobTitle>> RegisterJob(int id, JobTitle model);
-        Task<Result<JobTitle>> DismissEmployee(int id);
+        Task<Result<JobTitle>> DismissJob(int id);
+
+        Task<Result<Employee>> DismissEmploye(int id);
     }
 }
