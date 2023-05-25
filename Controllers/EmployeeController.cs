@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
-using EmployeeManagement.DTOs;
 using EmployeeManagement.Models;
 using EmployeeManagement.Persistence;
-using EmployeeManagement.Services.Implementations;
 using EmployeeManagement.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace EmployeeManagement.Controllers
 {
@@ -62,9 +59,11 @@ namespace EmployeeManagement.Controllers
         public async Task<IActionResult> JobHistory(int id)
         {
             var empId = _employeeContext.Id;
+            
             var result = await _employeeService.GetJobHistory(id != 0 ? id : empId);
             if (result.IsSuccess)
             {
+                _employeeContext.Id = id;
                 var jobTitles = result.Value;
                 return View(jobTitles);
             }
@@ -75,6 +74,18 @@ namespace EmployeeManagement.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> DismissEmployee(int id)
+        {
+            var result = await _employeeService.DismissEmployee(id);
+            var empId = _employeeContext.Id;
+            if (result.IsSuccess)
+            {
+                var updatedEmployees = await _employeeService.GetJobHistory(empId);
 
+                return RedirectToAction("JobHistory", updatedEmployees);
+            }
+            return RedirectToAction("Error");
+        }
     }
 }

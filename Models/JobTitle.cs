@@ -14,7 +14,7 @@ namespace EmployeeManagement.Models
         public string ActivityDescription { get; set; }
         [Required]
         [DataType(DataType.Date)]
-        public DateTime StartDate { get; set; } = DateTime.UtcNow;
+        public DateTime StartDate { get; set; }
         [DataType(DataType.Date)]
         public DateTime? TerminationDate { get; set; }
         public int EmployeeId { get; set; }

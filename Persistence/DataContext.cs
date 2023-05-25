@@ -11,6 +11,12 @@ public class DataContext : DbContext
     public DbSet<Company> Companies { get; set; }
     public DbSet<Employee> Employees { get; set; }
     public DbSet<JobTitle> JobTitles { get; set; }
+    //public class Tcontext
+    //{
+    //    public string? CNPJ { get; set; }
+    //    public string EmployeeId { get; set; }
+    //    public string JobId { get; set; }
+    //}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

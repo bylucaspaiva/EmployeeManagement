@@ -25,7 +25,7 @@
                     <td>@jobTitle.ActivityDescription</td>
                     <td>@jobTitle.StartDate.ToShortDateString()</td>
                     <td>@(jobTitle.TerminationDate != null ? jobTitle.TerminationDate.Value.ToShortDateString() : "")</td>
-                    <td><a class="btn btn-danger btn-sm" asp-action="DismissEmployee" asp-route-id="@jobTitle.Id">Deletar</a></td>
+                    <td><a class="btn btn-danger btn-sm" asp-action="DismissEmployee" asp-route-id="@jobTitle.Id">Demitir</a></td>
                 </tr>
             }
         </tbody>
