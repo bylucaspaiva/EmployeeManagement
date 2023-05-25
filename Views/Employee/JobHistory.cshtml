@@ -12,6 +12,7 @@
                 <th scope ="col">Descrição da Atividade</th>
                 <th scope="col">Data de Início</th>
                 <th scope="col">Data de Término</th>
+                <th scope="col">Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -24,6 +25,7 @@
                     <td>@jobTitle.ActivityDescription</td>
                     <td>@jobTitle.StartDate.ToShortDateString()</td>
                     <td>@(jobTitle.TerminationDate != null ? jobTitle.TerminationDate.Value.ToShortDateString() : "")</td>
+                    <td><a class="btn btn-danger btn-sm" asp-action="DismissEmployee" asp-route-id="@jobTitle.Id">Deletar</a></td>
                 </tr>
             }
         </tbody>

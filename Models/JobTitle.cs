@@ -20,7 +20,6 @@ namespace EmployeeManagement.Models
         public int EmployeeId { get; set; }
         public Employee? Employee { get; set; }
 
-
         public bool IsValid()
         {
             return TerminationDate == null || TerminationDate > StartDate;
