@@ -1,10 +1,23 @@
-﻿@{
+﻿@using EmployeeManagement.Services.Interfaces;
+@inject ICompanyService _companyService
+
+@{
     ViewData["Title"] = "Nydus - Gerenciamento de colaboradores";
 }
 
 <div class="text-center">
     <h1 class="display-4">Employee management</h1>
-    @*<p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>*@
     <p>Cadastre sua empresa e gerencie seus funcionários com uma ferramenta poderosa</p>
-
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <a asp-controller="Company" asp-action="Create" class="btn btn-primary">Cadastrar Empresa</a>
+        </div>
+        @if (_companyService.GetCompanies().Result.Any())
+        {
+            <div class="col-auto">
+                <a asp-controller="Company" asp-action="ListCompanies" class="btn btn-success">Listar Empresas</a>
+            </div>
+        }
+    </div>
 </div>
+

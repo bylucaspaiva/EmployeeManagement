@@ -70,7 +70,7 @@ namespace EmployeeManagement.Controllers
                 {
                     _companyContext.ErrorMessage = newCompany.Error;
 
-                    return RedirectToAction("Error"); 
+                    return RedirectToAction("Error");
                 }
             }
             return View(company);
@@ -84,7 +84,8 @@ namespace EmployeeManagement.Controllers
 
         public async Task<IActionResult> AddEmployee(EmployeeDTO employeeDTO)
         {
-            if(ModelState.IsValid){
+            if (ModelState.IsValid)
+            {
                 var cnpj = _companyContext.CNPJ;
                 var result = await _companyService.RegisterEmployee(employeeDTO, cnpj);
 
@@ -98,7 +99,7 @@ namespace EmployeeManagement.Controllers
                     return RedirectToAction("Error");
                 }
             }
-           
+
             return View(employeeDTO);
         }
 
@@ -118,7 +119,9 @@ namespace EmployeeManagement.Controllers
                 return Redirect($"/Company/ListEmployees/{employee.Value.CompanyCNPJ}");
             }
             return RedirectToAction("Error");
-            
+
         }
+
+        
     }
 }

@@ -88,5 +88,16 @@ namespace EmployeeManagement.Controllers
             }
             return RedirectToAction("Error");
         }
+
+        [HttpGet]
+        public async Task<ActionResult> ReturnToListEmployees(int id)
+        {
+            var cnpj = await _employeeService.GetEmployeeCnpj(id);
+            if(cnpj.IsSuccess)
+            {
+                return Redirect($"/Company/ListEmployees/{cnpj.Value}");
+            }
+            return RedirectToAction("Error");
+        }
     }
 }

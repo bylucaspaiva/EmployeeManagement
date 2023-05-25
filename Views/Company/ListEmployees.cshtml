@@ -5,6 +5,11 @@
     ViewData["Title"] = "Colaboradores Registrados";
 }
 
+<a asp-action="ListCompanies" class="btn btn-link">
+    <i class="fas fa-arrow-left"></i>&larr; Voltar para Empresas
+</a>
+
+
 <h1 class="mb-4">@ViewData["Title"]</h1>
 
 @if (Model != null && Model.Count > 0)

@@ -60,6 +60,25 @@ namespace EmployeeManagement.Services.Implementations
             return Result<JobTitle>.Failure("Falha ao terminar cargo");
         }
 
+        public async Task<Result<string>> GetEmployeeCnpj(int id)
+        {
+            var jobTitle = await _context.JobTitles
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
+
+            if (jobTitle == null ) return Result<string>.Failure("Cargo não encontrado");
+
+            var employeeId = jobTitle.EmployeeId;
+
+            var employee = await _context.Employees
+                .Where(x => x.Id == employeeId)
+                .FirstOrDefaultAsync();
+
+            if (employee == null) return Result<string>.Failure("Colaborador não encontrado");
+
+            return Result<string>.Success(employee.CompanyCNPJ);
+        }
+
         public async Task<Result<List<JobTitle>>> GetJobHistory(int id)
         {
             var jobTitles = await _context.Employees
@@ -71,10 +90,6 @@ namespace EmployeeManagement.Services.Implementations
             return Result<List<JobTitle>>.Success(jobTitles);
         }
 
-        public Task<JobTitle> GetJobTitle(string registerNumber)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<Result<JobTitle>> RegisterJob(int id, JobTitle model)
         {
