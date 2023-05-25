@@ -15,29 +15,36 @@ namespace EmployeeManagement.Services.Implementations
         private readonly HttpClient _httpClient;
         private readonly IMapper _mapper;
         private readonly DataContext _context;
-        private readonly ILogger<Company> _logger;
 
-        public CompanyService(HttpClient httpClient, IMapper mapper, DataContext context, ILogger<Company> logger)
+        public CompanyService(HttpClient httpClient, IMapper mapper, DataContext context)
         {
             _httpClient = httpClient;
             _mapper = mapper;
             _context = context;
-            _logger = logger;
         }
 
-        public Task<Employee> DismissEmployee(string registerNumber)
+        public async Task<Result<Employee>> DismissEmployee(int Id)
         {
-            throw new NotImplementedException();
+            var employee = await _context.Employees
+                .Where(e => e.Id == Id)
+                .FirstOrDefaultAsync();
+
+            if (employee == null) Result<Employee>.Failure("Colaborador não encontrado");
+
+            employee.IsActive = false;
+
+            _context.Employees.Update(employee);
+
+            var result = await _context.SaveChangesAsync() > 0;
+
+            if (!result) return Result<Employee>.Failure("Falha ao demitir funcionário");
+
+             return Result<Employee>.Success(employee);
         }
 
         public async Task<List<Company>> GetCompanies()
         {
             return await _context.Companies.ToListAsync();
-        }
-
-        public Task<Employee> GetEmployee(string registerNumber)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<Result<List<Employee>>> GetEmployees(string companyCNPJ)
@@ -94,6 +101,7 @@ namespace EmployeeManagement.Services.Implementations
 
             employee.Company = company;
             employee.CompanyCNPJ = CNPJ;
+            employee.IsActive = true;
             company.Employees.Add(employee);
 
             var result = await _context.SaveChangesAsync() > 0;
@@ -101,11 +109,6 @@ namespace EmployeeManagement.Services.Implementations
             if(result) return Result<Employee>.Success(employee);
 
             return Result<Employee>.Failure("Erro ao salvar empregado!");
-        }
-
-        public Task<Employee> UpdateEmployee(EmployeeDTO employeeDTO)
-        {
-            throw new NotImplementedException();
         }
     }
 }

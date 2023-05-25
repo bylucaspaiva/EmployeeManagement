@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmployeeManagement.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230525001020_InitialMigrate")]
+    [Migration("20230525042745_InitialMigrate")]
     partial class InitialMigrate
     {
         /// <inheritdoc />
@@ -23,6 +23,7 @@ namespace EmployeeManagement.Migrations
             modelBuilder.Entity("EmployeeManagement.Models.Company", b =>
                 {
                     b.Property<string>("CNPJ")
+                        .HasMaxLength(18)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CompanyName")
@@ -50,6 +51,9 @@ namespace EmployeeManagement.Migrations
 
                     b.Property<string>("CompanyCNPJ")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()

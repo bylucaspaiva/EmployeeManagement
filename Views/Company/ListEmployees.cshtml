@@ -27,9 +27,15 @@
                         <td>@Html.DisplayFor(m => employee.Name)</td>
                         <td>@Html.DisplayFor(m => employee.CPF)</td>
                         <td>
-                            <a class="btn btn-primary btn-sm" asp-action="JobTitle" asp-route-id="@employee.Id" asp-controller="Employee">Adicionar cargo</a>
+                            @if(employee.IsActive) {<a class="btn btn-primary btn-sm" asp-action="JobTitle" asp-route-id="@employee.Id" asp-controller="Employee">Adicionar cargo</a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-dark btn-sm">demitido</a>
+                            }
                             <a class="btn btn-info btn-sm" asp-action="JobHistory" asp-route-id="@employee.Id" asp-controller="Employee">Histórico de cargos</a>
-                            <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@employee.Id">Demitir</a>
+                            <a class="btn btn-danger btn-sm" asp-action="DismissEmployee" asp-route-id="@employee.Id">Demitir</a>
+                            
                         </td>
                     </tr>
                 }

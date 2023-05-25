@@ -4,7 +4,6 @@ using EmployeeManagement.Models;
 using EmployeeManagement.Persistence;
 using EmployeeManagement.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace EmployeeManagement.Controllers
 {
@@ -12,13 +11,11 @@ namespace EmployeeManagement.Controllers
     {
         private readonly ICompanyService _companyService;
         private CompanyContext _companyContext;
-        private EmployeeContext _employeeContext;
 
-        public CompanyController(ICompanyService companyService, CompanyContext companyContext, EmployeeContext employeeContext, IMapper mapper)
+        public CompanyController(ICompanyService companyService, CompanyContext companyContext)
         {
             _companyService = companyService;
             _companyContext = companyContext;
-            _employeeContext = employeeContext;
         }
 
         public IActionResult Create()
@@ -73,19 +70,19 @@ namespace EmployeeManagement.Controllers
                 {
                     _companyContext.ErrorMessage = newCompany.Error;
 
-                    return RedirectToAction("Error");
+                    return RedirectToAction("Error"); 
                 }
             }
             return View(company);
         }
 
-        public IActionResult AddEmployee(string id)
+        public IActionResult RegisterEmployee(string id)
         {
             _companyContext.CNPJ = id;
             return View();
         }
 
-        public async Task<IActionResult> RegisterEmployee(EmployeeDTO employeeDTO)
+        public async Task<IActionResult> AddEmployee(EmployeeDTO employeeDTO)
         {
             if(ModelState.IsValid){
                 var cnpj = _companyContext.CNPJ;
@@ -93,7 +90,7 @@ namespace EmployeeManagement.Controllers
 
                 if (result.IsSuccess)
                 {
-                    return RedirectToAction("ListEmployees");
+                    return Redirect("ListEmployees");
                 }
                 else
                 {
@@ -112,6 +109,16 @@ namespace EmployeeManagement.Controllers
             return View(companies);
         }
 
-
+        [HttpGet]
+        public async Task<ActionResult> DismissEmployee(int id)
+        {
+            var employee = await _companyService.DismissEmployee(id);
+            if (employee.IsSuccess)
+            {
+                return Redirect($"/Company/ListEmployees/{employee.Value.CompanyCNPJ}");
+            }
+            return RedirectToAction("Error");
+            
+        }
     }
 }

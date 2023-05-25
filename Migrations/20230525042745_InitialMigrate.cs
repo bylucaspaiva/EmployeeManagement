@@ -15,7 +15,7 @@ namespace EmployeeManagement.Migrations
                 name: "Companies",
                 columns: table => new
                 {
-                    CNPJ = table.Column<string>(type: "TEXT", nullable: false),
+                    CNPJ = table.Column<string>(type: "TEXT", maxLength: 18, nullable: false),
                     CompanyName = table.Column<string>(type: "TEXT", nullable: false),
                     TradeName = table.Column<string>(type: "TEXT", nullable: false)
                 },
@@ -33,7 +33,8 @@ namespace EmployeeManagement.Migrations
                     RegisterNumber = table.Column<string>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     CPF = table.Column<string>(type: "TEXT", nullable: false),
-                    CompanyCNPJ = table.Column<string>(type: "TEXT", nullable: true)
+                    CompanyCNPJ = table.Column<string>(type: "TEXT", nullable: true),
+                    IsActive = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {

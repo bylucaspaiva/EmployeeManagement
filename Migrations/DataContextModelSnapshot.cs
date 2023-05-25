@@ -20,6 +20,7 @@ namespace EmployeeManagement.Migrations
             modelBuilder.Entity("EmployeeManagement.Models.Company", b =>
                 {
                     b.Property<string>("CNPJ")
+                        .HasMaxLength(18)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CompanyName")
@@ -47,6 +48,9 @@ namespace EmployeeManagement.Migrations
 
                     b.Property<string>("CompanyCNPJ")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
