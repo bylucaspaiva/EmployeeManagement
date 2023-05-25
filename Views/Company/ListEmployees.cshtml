@@ -1,38 +1,43 @@
 ﻿@using EmployeeManagement.Models;
 @model List<EmployeeManagement.Models.Employee>
 
-<h1>Lista de Funcionários</h1>
+@{
+    ViewData["Title"] = "Colaboradores Registrados";
+}
+
+<h1 class="mb-4">@ViewData["Title"]</h1>
 
 @if (Model != null && Model.Count > 0)
 {
-    <table>
-        <thead>
-            <tr>
-                <th>Matricula</th>
-                <th>Nome</th>
-                <th>CPF</th>
-                <th>Ações</th>
-                <!-- Adicione mais colunas conforme necessário -->
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var employee in Model)
-            {
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
                 <tr>
-                    <td>@employee.RegisterNumber</td>
-                    <td>@employee.Name</td>
-                    <td>@employee.CPF</td>
-                    <td>
-                        <a asp-action="JobTitle" asp-route-id="@employee.Id" asp-controller="Employee">Adicionar cargo</a> |
-                        <a asp-action="JobHistory" asp-route-id="@employee.Id" asp-controller="Employee">Detalhes</a> |
-                        <a asp-action="Delete" asp-route-id="@employee.Id">Deletar</a>
-                    </td>
+                    <th scope="col">Matricula</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">CPF</th>
+                    <th scope="col">Ações</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var employee in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(m => employee.RegisterNumber)</td>
+                        <td>@Html.DisplayFor(m => employee.Name)</td>
+                        <td>@Html.DisplayFor(m => employee.CPF)</td>
+                        <td>
+                            <a class="btn btn-primary btn-sm" asp-action="JobTitle" asp-route-id="@employee.Id" asp-controller="Employee">Adicionar cargo</a>
+                            <a class="btn btn-info btn-sm" asp-action="JobHistory" asp-route-id="@employee.Id" asp-controller="Employee">Histórico de cargos</a>
+                            <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@employee.Id">Deletar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }
 else
 {
-    <p>Nenhum funcionário encontrado.</p>
+    <p class="alert alert-warning">Nenhum funcionário encontrado.</p>
 }
