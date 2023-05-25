@@ -16,10 +16,14 @@
     <div class="form-group">
         <label asp-for="CompanyName" class="control-label">Razão Social</label>
         <input asp-for="CompanyName" class="form-control" />
+        <span class="invalid-feedback">@Html.ValidationMessageFor(model => model.CompanyName)</span>
+        <small class="text-danger">@ViewData.ModelState["CompanyName"]?.Errors[0].ErrorMessage</small>
     </div>
     <div class="form-group">
         <label asp-for="TradeName" class="control-label">Nome Fantasia</label>
         <input asp-for="TradeName" class="form-control" />
+        <span class="invalid-feedback">@Html.ValidationMessageFor(model => model.TradeName)</span>
+        <small class="text-danger">@ViewData.ModelState["TradeName"]?.Errors[0].ErrorMessage</small>
     </div>
     <div class="form-group">
         <input type="submit" value="Criar" class="btn btn-primary" />

@@ -6,8 +6,11 @@ namespace EmployeeManagement.Models
     {
         [Key]
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string CBO { get; set; }
+        [Required]    
         public string ActivityDescription { get; set; }
         [Required]
         [DataType(DataType.Date)]

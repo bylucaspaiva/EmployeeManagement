@@ -1,4 +1,5 @@
-﻿using EmployeeManagement.DTOs;
+﻿using AutoMapper;
+using EmployeeManagement.DTOs;
 using EmployeeManagement.Models;
 using EmployeeManagement.Persistence;
 using EmployeeManagement.Services.Interfaces;
@@ -12,7 +13,8 @@ namespace EmployeeManagement.Controllers
         private readonly ICompanyService _companyService;
         private CompanyContext _companyContext;
         private EmployeeContext _employeeContext;
-        public CompanyController(ICompanyService companyService, CompanyContext companyContext, EmployeeContext employeeContext)
+
+        public CompanyController(ICompanyService companyService, CompanyContext companyContext, EmployeeContext employeeContext, IMapper mapper)
         {
             _companyService = companyService;
             _companyContext = companyContext;
@@ -74,29 +76,33 @@ namespace EmployeeManagement.Controllers
                     return RedirectToAction("Error");
                 }
             }
-            return BadRequest();
+            return View(company);
         }
 
-        public IActionResult RegisterEmployee(string id)
+        public IActionResult AddEmployee(string id)
         {
             _companyContext.CNPJ = id;
             return View();
         }
 
-        public async Task<IActionResult> AddEmployee(EmployeeDTO employeeDTO)
+        public async Task<IActionResult> RegisterEmployee(EmployeeDTO employeeDTO)
         {
-            var cnpj = _companyContext.CNPJ;
-            var result = await _companyService.RegisterEmployee(employeeDTO, cnpj);
+            if(ModelState.IsValid){
+                var cnpj = _companyContext.CNPJ;
+                var result = await _companyService.RegisterEmployee(employeeDTO, cnpj);
 
-            if (result.IsSuccess)
-            {
-                return RedirectToAction("ListEmployees");
+                if (result.IsSuccess)
+                {
+                    return RedirectToAction("ListEmployees");
+                }
+                else
+                {
+                    _companyContext.ErrorMessage = result.Error ?? "Erro ao cadastrar empregado";
+                    return RedirectToAction("Error");
+                }
             }
-            else
-            {
-                _companyContext.ErrorMessage = result.Error ?? "Erro ao cadastrar empregado";
-                return RedirectToAction("Error");
-            }
+           
+            return View(employeeDTO);
         }
 
         [HttpGet]

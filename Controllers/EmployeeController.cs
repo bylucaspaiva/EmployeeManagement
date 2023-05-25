@@ -34,18 +34,22 @@ namespace EmployeeManagement.Controllers
         [HttpPost]
         public async Task<IActionResult> JobTitle(JobTitle model)
         {
-            var registerNumber = _employeeContext.Id;
-            var result = await _employeeService.RegisterJob(registerNumber, model);
+            if(ModelState.IsValid)
+            {
+                var registerNumber = _employeeContext.Id;
+                var result = await _employeeService.RegisterJob(registerNumber, model);
 
-            if (result.IsSuccess)
-            {
-                return RedirectToAction("JobHistory");
+                if (result.IsSuccess)
+                {
+                    return RedirectToAction("JobHistory");
+                }
+                else
+                {
+                    _employeeContext.ErrorMessage = result.Error ?? "Erro ao cadastrar empregado";
+                    return RedirectToAction("Error");
+                }
             }
-            else
-            {
-                _employeeContext.ErrorMessage = result.Error ?? "Erro ao cadastrar empregado";
-                return RedirectToAction("Error");
-            }
+            return View(model);
         }
 
         public IActionResult JobTitle(int id) 
